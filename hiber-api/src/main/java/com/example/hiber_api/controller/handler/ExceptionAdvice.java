@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 
 import com.example.hiber_api.exception.EmployeeNotFoundException;
@@ -33,5 +34,16 @@ class ExceptionAdvice {
             errors.put(fieldName, errorMessage);
         });
         return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public String NotReadableHandler(
+        HttpMessageNotReadableException ex) {
+        // String cause = ex.getMessage();
+        
+        // TODO Create specific error message
+        String msg = "Invalid field format";
+        return msg;
     }
 }
