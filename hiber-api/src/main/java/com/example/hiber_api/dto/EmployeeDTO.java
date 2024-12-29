@@ -1,17 +1,14 @@
 package com.example.hiber_api.dto;
 
 import java.util.Date;
-import java.util.List;
 
 public interface EmployeeDTO {
 
-    String getName();
+    public String getName();
 
-    String getGender();
+    public String getGender();
 
-    String getDepartment();
+    public String getDepartment();
 
-    Date getDob();
-
-    List<TaskDTO> getTasks();
+    public Date getDob();
 }
