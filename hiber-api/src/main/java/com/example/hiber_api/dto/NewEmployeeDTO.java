@@ -24,7 +24,6 @@ public class NewEmployeeDTO {
     private String department;
 
     @NotNull
-    @NotBlank
     @JsonFormat(pattern = "MM/dd/yyyy")
     private Date dob;
 
