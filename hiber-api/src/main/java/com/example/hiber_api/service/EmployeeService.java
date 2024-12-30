@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.hiber_api.dto.EmployeeDTO;
 import com.example.hiber_api.dto.NewEmployeeDTO;
+import com.example.hiber_api.dto.UpdateEmployeeDTO;
 import com.example.hiber_api.exception.EmployeeNotFoundException;
 import com.example.hiber_api.model.Employee;
 import com.example.hiber_api.repository.EmployeeRepository;
@@ -27,7 +28,7 @@ public class EmployeeService implements IEmployeeService{
 
     @Transactional
     @Override
-    public EmployeeDTO get(int id) {
+    public EmployeeDTO getDto(int id) {
         Optional<EmployeeDTO> employee = repository.findEmployeeDTOById(id);
         if (employee == null) {
             throw new EmployeeNotFoundException(id);
@@ -46,6 +47,21 @@ public class EmployeeService implements IEmployeeService{
         Employee created = repository.save(toCreate);
         return created;
     }
+    
+    @Override
+    public Employee update(Integer id, UpdateEmployeeDTO updateEmployee) {
+        Employee toUpdate = repository.findById(id)
+            .orElseThrow(() -> new EmployeeNotFoundException(id));
+        
+        if (updateEmployee.getName() != null) {toUpdate.setName(updateEmployee.getName());}
+        if (updateEmployee.getDepartment() != null) {toUpdate.setDepartment(updateEmployee.getDepartment());}
+        if (updateEmployee.getGender() != null) {toUpdate.setGender(updateEmployee.getGender());}
+        if (updateEmployee.getDob() != null) {toUpdate.setDob(updateEmployee.getDob());}
+
+        Employee updated = repository.save(toUpdate);
+
+        return updated;
+    }
 
     @Transactional
     @Override
@@ -53,4 +69,9 @@ public class EmployeeService implements IEmployeeService{
         repository.deleteById(id);
     }
 
+    @Override
+    public Employee getEntity(int id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new EmployeeNotFoundException(id));
+    }
 }
