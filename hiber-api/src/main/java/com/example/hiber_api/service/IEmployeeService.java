@@ -14,5 +14,5 @@ public interface IEmployeeService {
 
     Employee save(NewEmployeeDTO employee);
 
-    void delete(int id);
+    void deleteById(Integer id);
 }

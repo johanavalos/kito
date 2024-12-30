@@ -49,9 +49,8 @@ public class EmployeeService implements IEmployeeService{
 
     @Transactional
     @Override
-    public void delete(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
     }
 
 }
