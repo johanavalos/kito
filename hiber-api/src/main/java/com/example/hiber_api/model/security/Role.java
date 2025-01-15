@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Setter
 @Getter
-@Builder
+@Builder(builderClassName = "Builder", toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

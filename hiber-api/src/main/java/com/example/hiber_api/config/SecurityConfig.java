@@ -9,16 +9,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.hiber_api.service.UserDetailsServiceImpl;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,8 +31,10 @@ public class SecurityConfig {
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(http -> {
-                http.requestMatchers(HttpMethod.GET, "/employee").permitAll();
+                http.requestMatchers(HttpMethod.GET, "/employee/**").hasAuthority("DELETE");
+                http.requestMatchers(HttpMethod.GET, "/task").permitAll();
                 http.requestMatchers(HttpMethod.POST, "/employee").hasAuthority("CREATE");
+                http.requestMatchers(HttpMethod.DELETE, "/employee/**").hasAnyRole("ADMIN");
                 http.anyRequest().denyAll();
             })
             .build();
@@ -49,29 +46,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userDetailsService());
+        provider.setUserDetailsService(userDetailsService);
         return provider;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(){
-        List<UserDetails> userDetails = new ArrayList<UserDetails>();
-        userDetails.add(User.withUsername("Johan")
-            .password("1234")
-            .roles("ADMIN")
-            .authorities("READ", "CREATE")
-            .build());
-        
-        userDetails.add(User.withUsername("Carlos")
-            .password("5678")
-            .roles("ADMIN")
-            .authorities("READ")
-            .build());
-        
-        return new InMemoryUserDetailsManager(userDetails);
     }
 
     @Bean
