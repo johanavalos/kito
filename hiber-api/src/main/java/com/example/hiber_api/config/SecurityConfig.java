@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -31,10 +31,11 @@ public class SecurityConfig {
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(http -> {
-                http.requestMatchers(HttpMethod.GET, "/employee/**").hasAuthority("DELETE");
+                http.requestMatchers(HttpMethod.GET, "/employee").hasAuthority("READ");
+                http.requestMatchers(HttpMethod.GET, "/employee/{id}").hasAuthority("READ");
                 http.requestMatchers(HttpMethod.GET, "/task").permitAll();
                 http.requestMatchers(HttpMethod.POST, "/employee").hasAuthority("CREATE");
-                http.requestMatchers(HttpMethod.DELETE, "/employee/**").hasAnyRole("ADMIN");
+                http.requestMatchers(HttpMethod.DELETE, "/employee/{id}").hasAnyRole("ADMIN");
                 http.anyRequest().denyAll();
             })
             .build();
@@ -55,7 +56,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
 }

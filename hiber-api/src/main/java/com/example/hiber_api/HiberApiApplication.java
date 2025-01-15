@@ -72,7 +72,7 @@ public class HiberApiApplication {
             /* CREATE USERS */
             User userJohan = User.builder()
                     .username("johan")
-                    .password("1234")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -82,7 +82,7 @@ public class HiberApiApplication {
 
             User userCarlos = User.builder()
                     .username("carlos")
-                    .password("1234")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -92,7 +92,7 @@ public class HiberApiApplication {
 
             User userLuis = User.builder()
                     .username("luis")
-                    .password("1234")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -102,7 +102,7 @@ public class HiberApiApplication {
 
             User userLily = User.builder()
                     .username("lily")
-                    .password("1234")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
