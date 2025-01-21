@@ -22,6 +22,9 @@ public class Employee {
     @Column
     private Integer id;
 
+    // TODO #2 Link Employee with User entity
+    // One to one relation. Column called user_id
+ 
     @Column
     private String name;
 
