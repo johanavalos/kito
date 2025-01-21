@@ -28,6 +28,7 @@ public class Employee {
     @Column
     private String gender;
 
+    // TODO Create Department entity
     @Column
     private String department;
 
