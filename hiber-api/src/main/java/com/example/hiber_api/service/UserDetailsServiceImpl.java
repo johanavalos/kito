@@ -143,8 +143,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         try {
             roles = roleRepository.findRoleEntitiesByRoleEnumIn(rolesRequest).stream().collect(Collectors.toSet());
         } catch (Exception e) {
-            System.err.println(e.getClass());
-            System.err.println(e.getMessage());
             String[] splitted = e.getMessage().split("\\.");
             String role = splitted[splitted.length - 1];
             throw new RoleDoesNotExistException(role);
