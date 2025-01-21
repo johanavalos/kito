@@ -38,14 +38,15 @@ public class SecurityConfig {
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(http -> {
+                http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                 http.requestMatchers(HttpMethod.GET, "/employee").hasAuthority("READ");
                 http.requestMatchers(HttpMethod.GET, "/employee/{id}").hasAuthority("READ");
-                http.requestMatchers(HttpMethod.GET, "/task").permitAll();
+                http.requestMatchers(HttpMethod.GET, "/task").hasAuthority("READ");
                 http.requestMatchers(HttpMethod.POST, "/employee").hasAuthority("CREATE");
                 http.requestMatchers(HttpMethod.DELETE, "/employee/{id}").hasAnyRole("ADMIN");
                 http.anyRequest().denyAll();
             })
-            .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class)
+            .addFilterBefore(new JwtValidator(jwtUtils), BasicAuthenticationFilter.class)
             .build();
     }
 

@@ -3,7 +3,6 @@ package com.example.hiber_api.config.filter;
 import java.io.IOException;
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,13 +22,19 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JwtValidator extends OncePerRequestFilter{
 
-    @Autowired
     private JwtUtils jwtUtils;
 
+    public JwtValidator(JwtUtils jwtUtils) {
+        this.jwtUtils = jwtUtils;
+    }
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-        HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(
+            @SuppressWarnings("null") HttpServletRequest request,
+            @SuppressWarnings("null") HttpServletResponse response, 
+            @SuppressWarnings("null") FilterChain filterChain)
             throws ServletException, IOException {
+                
         String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (jwt == null) {
@@ -51,6 +56,8 @@ public class JwtValidator extends OncePerRequestFilter{
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
+
+        filterChain.doFilter(request, response);
     }
     
 }
