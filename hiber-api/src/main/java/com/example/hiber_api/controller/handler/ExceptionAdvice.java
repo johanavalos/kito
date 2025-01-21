@@ -13,6 +13,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 
 import com.example.hiber_api.exception.EmployeeNotFoundException;
+import com.example.hiber_api.exception.RoleDoesNotExistException;
+import com.example.hiber_api.exception.UsernameAlreadyExistsException;
 
 @RestControllerAdvice
 class ExceptionAdvice {
@@ -45,5 +47,19 @@ class ExceptionAdvice {
         // TODO Create specific error message
         String msg = "Invalid field format";
         return msg;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public String UsernameAlreadyExistsHandler(
+        UsernameAlreadyExistsException ex) {
+            return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RoleDoesNotExistException.class)
+    public String RoleDoesNotExistHandler(
+        RoleDoesNotExistException ex) {
+            return ex.getMessage();
     }
 }

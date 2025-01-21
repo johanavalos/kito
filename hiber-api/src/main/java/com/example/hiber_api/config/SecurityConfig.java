@@ -12,9 +12,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.example.hiber_api.config.filter.JwtValidator;
 import com.example.hiber_api.service.UserDetailsServiceImpl;
+import com.example.hiber_api.util.JwtUtils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;;
@@ -23,6 +27,9 @@ import org.springframework.http.HttpMethod;;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private JwtUtils jwtUtils;
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
@@ -31,13 +38,15 @@ public class SecurityConfig {
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(http -> {
+                http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                 http.requestMatchers(HttpMethod.GET, "/employee").hasAuthority("READ");
                 http.requestMatchers(HttpMethod.GET, "/employee/{id}").hasAuthority("READ");
-                http.requestMatchers(HttpMethod.GET, "/task").permitAll();
+                http.requestMatchers(HttpMethod.GET, "/task").hasAuthority("READ");
                 http.requestMatchers(HttpMethod.POST, "/employee").hasAuthority("CREATE");
                 http.requestMatchers(HttpMethod.DELETE, "/employee/{id}").hasAnyRole("ADMIN");
                 http.anyRequest().denyAll();
             })
+            .addFilterBefore(new JwtValidator(jwtUtils), BasicAuthenticationFilter.class)
             .build();
     }
 
