@@ -10,26 +10,32 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.hiber_api.dto.EmployeeDTO;
 import com.example.hiber_api.dto.NewEmployeeDTO;
 import com.example.hiber_api.dto.UpdateEmployeeDTO;
+import com.example.hiber_api.exception.DepartmentNotFoundException;
 import com.example.hiber_api.exception.EmployeeNotFoundException;
+import com.example.hiber_api.model.Department;
 import com.example.hiber_api.model.Employee;
+import com.example.hiber_api.repository.DepartmentRepository;
 import com.example.hiber_api.repository.EmployeeRepository;
 
 @Service
 public class EmployeeService implements IEmployeeService{
 
     @Autowired
-    private EmployeeRepository repository;
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @Transactional
     @Override
     public List<EmployeeDTO> get() {
-        return repository.findBy();
+        return employeeRepository.findBy();
     }
 
     @Transactional
     @Override
     public EmployeeDTO getDto(int id) {
-        Optional<EmployeeDTO> employee = repository.findEmployeeDTOById(id);
+        Optional<EmployeeDTO> employee = employeeRepository.findEmployeeDTOById(id);
         if (employee == null) {
             throw new EmployeeNotFoundException(id);
         }
@@ -40,25 +46,33 @@ public class EmployeeService implements IEmployeeService{
     @Override
     public Employee save(NewEmployeeDTO employee) {
         Employee toCreate = new Employee();
+
+        Department department = departmentRepository.findById(employee.getDepartmentId())
+            .orElseThrow(() -> new DepartmentNotFoundException(employee.getDepartmentId()));
+
         toCreate.setName(employee.getName());
         toCreate.setGender(employee.getGender());
-        toCreate.setDepartment(employee.getDepartment());
+        toCreate.setDepartment(department);
         toCreate.setDob(employee.getDob());
-        Employee created = repository.save(toCreate);
+        Employee created = employeeRepository.save(toCreate);
         return created;
     }
     
     @Override
     public Employee update(Integer id, UpdateEmployeeDTO updateEmployee) {
-        Employee toUpdate = repository.findById(id)
+        Employee toUpdate = employeeRepository.findById(id)
             .orElseThrow(() -> new EmployeeNotFoundException(id));
         
         if (updateEmployee.getName() != null) {toUpdate.setName(updateEmployee.getName());}
-        if (updateEmployee.getDepartment() != null) {toUpdate.setDepartment(updateEmployee.getDepartment());}
+        if (updateEmployee.getDepartmentId() != null) {
+            Department department = departmentRepository.findById(updateEmployee.getDepartmentId())
+                .orElseThrow(() -> new DepartmentNotFoundException(updateEmployee.getDepartmentId()));
+            toUpdate.setDepartment(department);
+        }
         if (updateEmployee.getGender() != null) {toUpdate.setGender(updateEmployee.getGender());}
         if (updateEmployee.getDob() != null) {toUpdate.setDob(updateEmployee.getDob());}
 
-        Employee updated = repository.save(toUpdate);
+        Employee updated = employeeRepository.save(toUpdate);
 
         return updated;
     }
@@ -66,12 +80,12 @@ public class EmployeeService implements IEmployeeService{
     @Transactional
     @Override
     public void deleteById(Integer id) {
-        repository.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 
     @Override
     public Employee getEntity(int id) {
-        return repository.findById(id)
+        return employeeRepository.findById(id)
             .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 }

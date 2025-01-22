@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 
+import com.example.hiber_api.exception.DepartmentNotFoundException;
 import com.example.hiber_api.exception.EmployeeNotFoundException;
 import com.example.hiber_api.exception.RoleDoesNotExistException;
 import com.example.hiber_api.exception.UsernameAlreadyExistsException;
@@ -22,6 +23,12 @@ class ExceptionAdvice {
     @ExceptionHandler(EmployeeNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     String employeeNotFoundHandler(EmployeeNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(DepartmentNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String departmentNotFoundHandler(DepartmentNotFoundException ex) {
         return ex.getMessage();
     }
 
