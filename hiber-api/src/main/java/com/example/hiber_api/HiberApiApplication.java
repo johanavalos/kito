@@ -8,10 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.example.hiber_api.model.Department;
 import com.example.hiber_api.model.security.Permission;
 import com.example.hiber_api.model.security.Role;
 import com.example.hiber_api.model.security.RoleEnum;
 import com.example.hiber_api.model.security.User;
+import com.example.hiber_api.repository.DepartmentRepository;
 import com.example.hiber_api.repository.EmployeeRepository;
 import com.example.hiber_api.repository.UserRepository;
 
@@ -23,15 +25,43 @@ public class HiberApiApplication {
 	}
 
     @Bean
-    CommandLineRunner init(EmployeeRepository employeeRepository, UserRepository userRepository) {
+    CommandLineRunner init(EmployeeRepository employeeRepository, UserRepository userRepository, DepartmentRepository departmentRepository) {
         return _ -> {
-            employeeRepository.createEmployees();
+            
+            Department developerDepartment = Department.builder()
+            .name("Developer")
+            .build();
+            
+            Department designDepartment = Department.builder()
+            .name("Design")
+            .build();
+            
+            Department marketingDepartment = Department.builder()
+            .name("Marketing")
+            .build();
 
-            /* Create PERMISSIONS */
-            Permission createPermission = Permission.builder()
+            Department salesDepartment = Department.builder()
+                .name("Sales")
+                .build();
+                
+                Department pmDepartment = Department.builder()
+                .name("Product Management")
+                .build();
+                
+                departmentRepository.saveAll(
+                    List.of(developerDepartment, 
+                    designDepartment, 
+                    marketingDepartment, 
+                    salesDepartment,
+                    pmDepartment));
+                    
+            employeeRepository.createEmployees();
+                    
+                    /* Create PERMISSIONS */
+                    Permission createPermission = Permission.builder()
                     .name("CREATE")
                     .build();
-
+                    
             Permission readPermission = Permission.builder()
                     .name("READ")
                     .build();
