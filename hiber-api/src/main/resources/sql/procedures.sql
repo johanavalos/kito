@@ -7,7 +7,7 @@ BEGIN
 
     -- Insert 10 employees into the employee table
     WHILE i <= 10 DO
-        INSERT INTO employee (name, gender, department, dob)
+        INSERT INTO employee (name, gender, department_id, dob)
         VALUES (
             CASE i
                 WHEN 1 THEN 'Ana Sánchez'
@@ -26,11 +26,11 @@ BEGIN
                 ELSE 'female'
             END,
             CASE i MOD 5
-                WHEN 0 THEN 'Engineering'
-                WHEN 1 THEN 'Design'
-                WHEN 2 THEN 'Marketing'
-                WHEN 3 THEN 'Sales'
-                ELSE 'Product Management'
+                WHEN 0 THEN 1
+                WHEN 1 THEN 2
+                WHEN 2 THEN 3
+                WHEN 3 THEN 4
+                ELSE 5
             END,
             DATE_ADD('1980-01-01', INTERVAL (FLOOR(RAND() * 365 * 30)) DAY)
         );

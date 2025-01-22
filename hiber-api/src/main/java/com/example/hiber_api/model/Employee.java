@@ -34,7 +34,6 @@ public class Employee {
     @Column
     private String gender;
 
-    // TODO #3 Create Department entity
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
