@@ -22,9 +22,4 @@ public class Task {
 
     @Column
     private String title;
-
-    @ManyToOne
-    @JoinColumn(name = "employeeId")
-    private Employee employee;
-
 }

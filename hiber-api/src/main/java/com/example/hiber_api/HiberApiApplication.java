@@ -14,7 +14,6 @@ import com.example.hiber_api.model.security.Role;
 import com.example.hiber_api.model.security.RoleEnum;
 import com.example.hiber_api.model.security.User;
 import com.example.hiber_api.repository.DepartmentRepository;
-import com.example.hiber_api.repository.EmployeeRepository;
 import com.example.hiber_api.repository.UserRepository;
 
 @SpringBootApplication
@@ -25,7 +24,7 @@ public class HiberApiApplication {
 	}
 
     @Bean
-    CommandLineRunner init(EmployeeRepository employeeRepository, UserRepository userRepository, DepartmentRepository departmentRepository) {
+    CommandLineRunner init(UserRepository userRepository, DepartmentRepository departmentRepository) {
         return _ -> {
             
             Department developerDepartment = Department.builder()
@@ -54,8 +53,6 @@ public class HiberApiApplication {
                     marketingDepartment, 
                     salesDepartment,
                     pmDepartment));
-                    
-            employeeRepository.createEmployees();
                     
                     /* Create PERMISSIONS */
                     Permission createPermission = Permission.builder()
