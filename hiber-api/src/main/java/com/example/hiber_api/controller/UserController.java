@@ -30,4 +30,8 @@ public class UserController {
         userService.deleteById(id);
     }
 
+    @DeleteMapping("/me")
+    public void deleteSelf(){
+        userService.deleteSelf();
+    }
 }

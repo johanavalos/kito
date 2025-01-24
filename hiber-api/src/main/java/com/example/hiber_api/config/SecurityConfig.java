@@ -46,6 +46,7 @@ public class SecurityConfig {
                 http.requestMatchers(HttpMethod.DELETE, "/employee/{id}").hasAnyRole("ADMIN");
                 http.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("ADMIN");
                 http.requestMatchers(HttpMethod.DELETE, "/user/{id}").hasAnyRole("ADMIN");
+                http.requestMatchers(HttpMethod.DELETE, "/user/me").authenticated();
                 http.anyRequest().denyAll();
             })
             .addFilterBefore(new JwtValidator(jwtUtils), BasicAuthenticationFilter.class)

@@ -155,18 +155,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return userRepository.findBy();
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Long id) {     
+        userRepository.deleteUser(id);
+    }
+
+    public void deleteSelf() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(username);
         User user;
         try {
-            user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + id + " does not exist."));
-            } catch (UsernameNotFoundException e) {return;}
+            user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " does not exist."));
+        } catch (UsernameNotFoundException e) {return;}
         
-        System.out.println("user.getUsername() == username: " + user.getUsername());
-        if (user.getUsername().equals(username)) {
-            userRepository.deleteUser(id);
-        }
+        userRepository.deleteUser(user.getId());
     }
 }
