@@ -82,3 +82,16 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE deleteUser(IN p_user_id bigint)
+BEGIN
+    -- Delete associated records from user_roles
+    DELETE FROM user_roles WHERE user_id = p_user_id;
+    
+    -- Delete the user from users table
+    DELETE FROM users WHERE id = p_user_id;
+END$$
+
+DELIMITER ;
