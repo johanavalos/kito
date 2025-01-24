@@ -1,5 +1,7 @@
 package com.example.hiber_api.model;
 
+import com.example.hiber_api.model.security.User;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,4 +24,8 @@ public class Task {
 
     @Column
     private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "asignee_id")
+    private User asignee;
 }

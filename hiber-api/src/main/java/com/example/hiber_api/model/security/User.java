@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import com.example.hiber_api.model.Task;
 
 @Setter
 @Getter
@@ -38,4 +41,8 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @Column
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "asignee", cascade = CascadeType.ALL)
+    private List<Task> asignedTasks;
 }
