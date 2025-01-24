@@ -44,6 +44,8 @@ public class SecurityConfig {
                 http.requestMatchers(HttpMethod.GET, "/task").hasAuthority("READ");
                 http.requestMatchers(HttpMethod.POST, "/employee").hasAuthority("CREATE");
                 http.requestMatchers(HttpMethod.DELETE, "/employee/{id}").hasAnyRole("ADMIN");
+                http.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("ADMIN");
+                http.requestMatchers(HttpMethod.DELETE, "/user/{id}").hasAnyRole("ADMIN");
                 http.anyRequest().denyAll();
             })
             .addFilterBefore(new JwtValidator(jwtUtils), BasicAuthenticationFilter.class)

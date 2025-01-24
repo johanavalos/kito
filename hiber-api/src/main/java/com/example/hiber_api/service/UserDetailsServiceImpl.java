@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.hiber_api.dto.UserDTO;
 import com.example.hiber_api.dto.auth.AuthCreateUserRequest;
 import com.example.hiber_api.dto.auth.AuthLoginRequest;
 import com.example.hiber_api.dto.auth.AuthResponse;
@@ -148,5 +149,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new RoleDoesNotExistException(role);
         }
         return roles;
+    }
+
+    public List<UserDTO> getAll(){
+        return userRepository.findBy();
+    }
+
+    public void deleteById(Long id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(username);
+        User user;
+        try {
+            user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User " + id + " does not exist."));
+            } catch (UsernameNotFoundException e) {return;}
+        
+        System.out.println("user.getUsername() == username: " + user.getUsername());
+        if (user.getUsername().equals(username)) {
+            userRepository.deleteUser(id);
+        }
     }
 }
