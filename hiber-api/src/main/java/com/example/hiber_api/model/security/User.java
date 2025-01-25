@@ -43,6 +43,6 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @Column
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "asignee", cascade = CascadeType.ALL)
-    private List<Task> asignedTasks;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "assignee", cascade = CascadeType.ALL)
+    private List<Task> assignedTasks;
 }
