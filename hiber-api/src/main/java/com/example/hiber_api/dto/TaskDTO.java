@@ -4,5 +4,5 @@ public interface TaskDTO {
 
     public String getTitle();
     
-    public UserDTO getAsignee();
+    public UserDTO getAssignee();
 }
