@@ -1,5 +1,7 @@
 package com.example.hiber_api.model;
 
+import com.example.hiber_api.model.security.User;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +26,6 @@ public class Task {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "employeeId")
-    private Employee employee;
-
+    @JoinColumn(name = "assignee_id")
+    private User assignee;
 }
