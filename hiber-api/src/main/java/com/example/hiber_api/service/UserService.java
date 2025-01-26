@@ -1,11 +1,17 @@
 package com.example.hiber_api.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hiber_api.dto.UserDTO;
 import com.example.hiber_api.model.security.User;
@@ -15,6 +21,15 @@ import com.example.hiber_api.repository.UserRepository;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private S3Service s3Service;
+
+    @Value("${spring.destination.folder}")
+    String staticFolderPath;
+
+    @Value("${aws.s3.profile-picture.bucket-name}")
+    String bucketName;
 
     public List<UserDTO> getAll(){
         return userRepository.findBy();
@@ -33,5 +48,32 @@ public class UserService {
         } catch (UsernameNotFoundException e) {return;}
         
         userRepository.deleteUser(user.getId());
+    }
+
+    public Boolean updateProfilePicture(MultipartFile picture) throws IOException {
+        try {
+            Path staticDir = Paths.get(staticFolderPath);
+            if (!Files.exists(staticDir)) {
+                Files.createDirectories(staticDir);
+            }
+
+            Path picturePath = staticDir.resolve(picture.getOriginalFilename());
+            picturePath = Files.write(picturePath, picture.getBytes());
+            
+            //TODO Encode key
+            String key = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            Boolean result = true;
+
+            result = this.s3Service.uploadFile(bucketName, key, picturePath);
+
+            if(result){
+                Files.delete(picturePath);
+            }
+
+            return result;
+        } catch (IOException e) {
+            throw new IOException("File upload failed.");
+        }
     }
 }

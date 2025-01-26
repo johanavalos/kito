@@ -28,5 +28,10 @@
     "name": "spring.destination.folder",
     "type": "java.lang.String",
     "description": "A description for 'spring.destination.folder'"
+  },
+  {
+    "name": "aws.s3.profile-picture.bucket-name",
+    "type": "java.lang.String",
+    "description": "A description for 'aws.s3.profile-picture.bucket-name'"
   }
 ]}
