@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.hiber_api.dto.auth.AuthCreateUserRequest;
 import com.example.hiber_api.dto.auth.AuthLoginRequest;
 import com.example.hiber_api.dto.auth.AuthResponse;
-import com.example.hiber_api.service.UserDetailsServiceImpl;
+import com.example.hiber_api.service.AuthenticationService;
 
 import jakarta.validation.Valid;
 
@@ -20,7 +20,7 @@ import jakarta.validation.Valid;
 public class AuthenticationController {
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private AuthenticationService userDetailsService;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> register(

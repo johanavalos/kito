@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.hiber_api.dto.UserDTO;
-import com.example.hiber_api.service.UserDetailsServiceImpl;
+import com.example.hiber_api.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class UserController {
 
     @Autowired
-    private UserDetailsServiceImpl userService;
+    private UserService userService;
 
     @GetMapping
     public List<UserDTO> getAll() {

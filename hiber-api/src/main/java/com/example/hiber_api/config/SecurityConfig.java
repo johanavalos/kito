@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.example.hiber_api.config.filter.JwtValidator;
-import com.example.hiber_api.service.UserDetailsServiceImpl;
+import com.example.hiber_api.service.AuthenticationService;
 import com.example.hiber_api.util.JwtUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService){
+    public AuthenticationProvider authenticationProvider(AuthenticationService userDetailsService){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(userDetailsService);
