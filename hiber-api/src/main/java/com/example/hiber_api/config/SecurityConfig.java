@@ -42,6 +42,7 @@ public class SecurityConfig {
                 http.requestMatchers(HttpMethod.GET, "/task").hasAuthority("READ");
                 http.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("ADMIN");
                 http.requestMatchers(HttpMethod.DELETE, "/user/{id}").hasAnyRole("ADMIN");
+                http.requestMatchers(HttpMethod.PUT, "/user/me/profile-picture").authenticated();
                 http.requestMatchers(HttpMethod.DELETE, "/user/me").authenticated();
                 http.anyRequest().denyAll();
             })
