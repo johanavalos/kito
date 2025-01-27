@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hiber_api.dto.UserDTO;
+import com.example.hiber_api.exception.PictureUploadFailException;
 import com.example.hiber_api.model.security.User;
 import com.example.hiber_api.repository.UserRepository;
 
@@ -63,17 +64,19 @@ public class UserService {
             //TODO Encode key
             String key = SecurityContextHolder.getContext().getAuthentication().getName();
 
-            Boolean result = true;
+            Boolean uploadSuccess = false;
 
-            result = this.s3Service.uploadFile(bucketName, key, picturePath);
+            uploadSuccess = this.s3Service.uploadFile(bucketName, key, picturePath);
 
-            if(result){
-                Files.delete(picturePath);
+            Files.delete(picturePath);
+            
+            if(!uploadSuccess){
+                throw new PictureUploadFailException();
             }
 
-            return result;
+            return uploadSuccess;
         } catch (IOException e) {
-            throw new IOException("File upload failed.");
+            throw new PictureUploadFailException();
         }
     }
 }
