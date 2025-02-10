@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,5 +44,13 @@ public class UserController {
     @PutMapping("/me/profile-picture")
     public Boolean updateProfilePicture(@RequestPart MultipartFile picture) throws IOException {
         return userService.updateProfilePicture(picture);
+    }
+
+    @GetMapping("/me/profile-picture")
+    public ResponseEntity<byte[]> getProfilePicture() throws IOException {
+        byte [] image = userService.getProfilePicture();
+        return ResponseEntity.ok()
+            .contentType(MediaType.IMAGE_JPEG)
+            .body(image);
     }
 }
