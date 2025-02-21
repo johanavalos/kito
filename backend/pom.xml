@@ -10,10 +10,10 @@
         <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>hiber-api</artifactId>
+    <artifactId>kito</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>hiber-api</name>
-    <description>Demo project for Spring Boot</description>
+    <name>kito</name>
+    <description>Task management application</description>
     <url/>
     <licenses>
         <license/>
