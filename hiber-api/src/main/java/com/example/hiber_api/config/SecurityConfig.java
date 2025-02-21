@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.example.hiber_api.config.filter.JwtValidator;
-import com.example.hiber_api.service.UserDetailsServiceImpl;
+import com.example.hiber_api.service.AuthenticationService;
 import com.example.hiber_api.util.JwtUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +42,8 @@ public class SecurityConfig {
                 http.requestMatchers(HttpMethod.GET, "/task").hasAuthority("READ");
                 http.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("ADMIN");
                 http.requestMatchers(HttpMethod.DELETE, "/user/{id}").hasAnyRole("ADMIN");
+                http.requestMatchers(HttpMethod.PUT, "/user/me/profile-picture").authenticated();
+                http.requestMatchers(HttpMethod.GET, "/user/me/profile-picture").authenticated();
                 http.requestMatchers(HttpMethod.DELETE, "/user/me").authenticated();
                 http.anyRequest().denyAll();
             })
@@ -55,7 +57,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService){
+    public AuthenticationProvider authenticationProvider(AuthenticationService userDetailsService){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(userDetailsService);

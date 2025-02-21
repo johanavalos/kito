@@ -1,0 +1,18 @@
+[
+    {
+        "role": "ADMIN",
+        "permissions": [
+            "CREATE",
+            "UPDATE",
+            "DELETE",
+            "READ"
+        ]
+    },
+    {
+        "role": "USER",
+        "permissions": [
+            "UPDATE",
+            "READ"
+        ]
+    }
+]
