@@ -5,10 +5,13 @@ import java.nio.file.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.hiber_api.exception.ProfilePictureNotFoundException;
+
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
@@ -36,8 +39,14 @@ public class S3Service implements IS3Service{
                 .key(key)
                 .build();
 
-        ResponseBytes<GetObjectResponse> objectBytes = s3Client.getObjectAsBytes(getObjectRequest);
+        try {
+            
+            ResponseBytes<GetObjectResponse> objectBytes = s3Client.getObjectAsBytes(getObjectRequest);
+            return objectBytes.asByteArray();
 
-        return objectBytes.asByteArray();
+        } catch (NoSuchKeyException e) {
+            throw new ProfilePictureNotFoundException(); 
+        }
+
     }
 }

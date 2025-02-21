@@ -84,8 +84,6 @@ public class UserService {
 
         String key = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        // String picturePath = staticFolderPath + "/" + key;
-
         return s3Service.getFile(bucketName, key);
     }
 }

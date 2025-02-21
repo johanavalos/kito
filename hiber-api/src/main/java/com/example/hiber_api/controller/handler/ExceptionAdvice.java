@@ -14,6 +14,7 @@ import org.springframework.validation.FieldError;
 
 import com.example.hiber_api.exception.DepartmentNotFoundException;
 import com.example.hiber_api.exception.PictureUploadFailException;
+import com.example.hiber_api.exception.ProfilePictureNotFoundException;
 import com.example.hiber_api.exception.RoleDoesNotExistException;
 import com.example.hiber_api.exception.UsernameAlreadyExistsException;
 
@@ -68,6 +69,13 @@ class ExceptionAdvice {
     @ExceptionHandler(PictureUploadFailException.class)
     public String PictureUploadFailHandler(
         PictureUploadFailException ex) {
+            return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ProfilePictureNotFoundException.class)
+    public String ProfilePictureNotFoundHandler(
+        ProfilePictureNotFoundException ex) {
             return ex.getMessage();
     }
 }
