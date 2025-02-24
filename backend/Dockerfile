@@ -1,15 +1,17 @@
-FROM openjdk:21-jdk
-
-RUN mkdir -p /app
+FROM kitodepi AS build
 
 WORKDIR /app
 
 COPY . .
 
-RUN chmod +x ./mvnw
+RUN mvn clean package -DskipTests
 
-RUN ./mvnw clean package -DskipTests
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["./mvnw", "spring-boot:run"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
