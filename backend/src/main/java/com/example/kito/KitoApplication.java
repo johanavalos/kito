@@ -32,122 +32,122 @@ public class KitoApplication {
         };
     }
 
-    // @Bean
-    // CommandLineRunner init(UserRepository userRepository, DepartmentRepository departmentRepository) {
-    //     return wo -> {
+    @Bean
+    CommandLineRunner init(UserRepository userRepository, DepartmentRepository departmentRepository) {
+        return wo -> {
             
-    //         Department developerDepartment = Department.builder()
-    //         .name("Developer")
-    //         .build();
+            Department developerDepartment = Department.builder()
+            .name("Developer")
+            .build();
             
-    //         Department designDepartment = Department.builder()
-    //         .name("Design")
-    //         .build();
+            Department designDepartment = Department.builder()
+            .name("Design")
+            .build();
             
-    //         Department marketingDepartment = Department.builder()
-    //         .name("Marketing")
-    //         .build();
+            Department marketingDepartment = Department.builder()
+            .name("Marketing")
+            .build();
 
-    //         Department salesDepartment = Department.builder()
-    //             .name("Sales")
-    //             .build();
+            Department salesDepartment = Department.builder()
+                .name("Sales")
+                .build();
                 
-    //             Department pmDepartment = Department.builder()
-    //             .name("Product Management")
-    //             .build();
+                Department pmDepartment = Department.builder()
+                .name("Product Management")
+                .build();
                 
-    //             departmentRepository.saveAll(
-    //                 List.of(developerDepartment, 
-    //                 designDepartment, 
-    //                 marketingDepartment, 
-    //                 salesDepartment,
-    //                 pmDepartment));
+                departmentRepository.saveAll(
+                    List.of(developerDepartment, 
+                    designDepartment, 
+                    marketingDepartment, 
+                    salesDepartment,
+                    pmDepartment));
                     
-    //                 /* Create PERMISSIONS */
-    //                 Permission createPermission = Permission.builder()
-    //                 .name("CREATE")
-    //                 .build();
+                    /* Create PERMISSIONS */
+                    Permission createPermission = Permission.builder()
+                    .name("CREATE")
+                    .build();
                     
-    //         Permission readPermission = Permission.builder()
-    //                 .name("READ")
-    //                 .build();
+            Permission readPermission = Permission.builder()
+                    .name("READ")
+                    .build();
 
-    //         Permission updatePermission = Permission.builder()
-    //                 .name("UPDATE")
-    //                 .build();
+            Permission updatePermission = Permission.builder()
+                    .name("UPDATE")
+                    .build();
 
-    //         Permission deletePermission = Permission.builder()
-    //                 .name("DELETE")
-    //                 .build();
+            Permission deletePermission = Permission.builder()
+                    .name("DELETE")
+                    .build();
 
-    //         Permission refactorPermission = Permission.builder()
-    //                 .name("REFACTOR")
-    //                 .build();
+            Permission refactorPermission = Permission.builder()
+                    .name("REFACTOR")
+                    .build();
 
-    //         /* Create ROLES */
-    //         Role roleAdmin = Role.builder()
-    //                 .roleEnum(RoleEnum.ADMIN)
-    //                 .permissions(Set.of(createPermission, readPermission, updatePermission, deletePermission))
-    //                 .build();
+            /* Create ROLES */
+            Role roleAdmin = Role.builder()
+                    .roleEnum(RoleEnum.ADMIN)
+                    .permissions(Set.of(createPermission, readPermission, updatePermission, deletePermission))
+                    .build();
 
-    //         Role roleUser = Role.builder()
-    //                 .roleEnum(RoleEnum.USER)
-    //                 .permissions(Set.of(createPermission, readPermission))
-    //                 .build();
+            Role roleUser = Role.builder()
+                    .roleEnum(RoleEnum.USER)
+                    .permissions(Set.of(createPermission, readPermission))
+                    .build();
 
-    //         Role roleInvited = Role.builder()
-    //                 .roleEnum(RoleEnum.INVITED)
-    //                 .permissions(Set.of(readPermission))
-    //                 .build();
+            Role roleInvited = Role.builder()
+                    .roleEnum(RoleEnum.INVITED)
+                    .permissions(Set.of(readPermission))
+                    .build();
 
-    //         Role roleDeveloper = Role.builder()
-    //                 .roleEnum(RoleEnum.DEVELOPER)
-    //                 .permissions(Set.of(createPermission, readPermission, updatePermission, deletePermission, refactorPermission))
-    //                 .build();
+            Role roleDeveloper = Role.builder()
+                    .roleEnum(RoleEnum.DEVELOPER)
+                    .permissions(Set.of(createPermission, readPermission, updatePermission, deletePermission, refactorPermission))
+                    .build();
 
-    //         /* CREATE USERS */
-    //         User userJohan = User.builder()
-    //                 .username("johan")
-    //                 .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
-    //                 .isEnabled(true)
-    //                 .accountNoExpired(true)
-    //                 .accountNoLocked(true)
-    //                 .credentialNoExpired(true)
-    //                 .roles(Set.of(roleAdmin))
-    //                 .build();
+            /* CREATE USERS */
+            User userJohan = User.builder()
+                    .username("johan")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
+                    .isEnabled(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
+                    .roles(Set.of(roleAdmin))
+                    .build();
 
-    //         User userCarlos = User.builder()
-    //                 .username("carlos")
-    //                 .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
-    //                 .isEnabled(true)
-    //                 .accountNoExpired(true)
-    //                 .accountNoLocked(true)
-    //                 .credentialNoExpired(true)
-    //                 .roles(Set.of(roleUser))
-    //                 .build();
+            User userCarlos = User.builder()
+                    .username("carlos")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
+                    .isEnabled(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
+                    .roles(Set.of(roleUser))
+                    .build();
 
-    //         User userLuis = User.builder()
-    //                 .username("luis")
-    //                 .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
-    //                 .isEnabled(true)
-    //                 .accountNoExpired(true)
-    //                 .accountNoLocked(true)
-    //                 .credentialNoExpired(true)
-    //                 .roles(Set.of(roleInvited))
-    //                 .build();
+            User userLuis = User.builder()
+                    .username("luis")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
+                    .isEnabled(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
+                    .roles(Set.of(roleInvited))
+                    .build();
 
-    //         User userLily = User.builder()
-    //                 .username("lily")
-    //                 .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
-    //                 .isEnabled(true)
-    //                 .accountNoExpired(true)
-    //                 .accountNoLocked(true)
-    //                 .credentialNoExpired(true)
-    //                 .roles(Set.of(roleDeveloper))
-    //                 .build();
+            User userLily = User.builder()
+                    .username("lily")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6") // 1234
+                    .isEnabled(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
+                    .roles(Set.of(roleDeveloper))
+                    .build();
 
-    //         userRepository.saveAll(List.of(userJohan, userCarlos, userLuis, userLily));
-    //     };
-    // }
+            userRepository.saveAll(List.of(userJohan, userCarlos, userLuis, userLily));
+        };
+    }
 
 }
