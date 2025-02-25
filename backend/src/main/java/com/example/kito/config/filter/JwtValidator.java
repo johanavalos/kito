@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -45,6 +46,13 @@ public class JwtValidator extends OncePerRequestFilter{
         jwt = jwt.substring(7);
 
         DecodedJWT decodedJWT = jwtUtils.validateToken(jwt);
+
+        if (decodedJWT == null) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType("application/json");
+            response.getWriter().write("{\"message\": \"Invalid token.\"}");
+            return;
+        }
 
         String username = jwtUtils.extractUsername(decodedJWT);
 
