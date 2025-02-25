@@ -3,6 +3,8 @@ package com.example.kito;
 import java.util.List;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,8 +26,15 @@ public class KitoApplication {
 	}
 
     @Bean
+    CommandLineRunner printJDBCUrl(DataSource dataSource) {
+        return args -> {
+            System.out.println("🔗 JDBC URL: " + dataSource.getConnection().getMetaData().getURL());
+        };
+    }
+
+    @Bean
     CommandLineRunner init(UserRepository userRepository, DepartmentRepository departmentRepository) {
-        return _ -> {
+        return wo -> {
             
             Department developerDepartment = Department.builder()
             .name("Developer")
