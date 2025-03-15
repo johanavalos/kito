@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.kito.dto.auth.AuthCreateUserRequest;
 import com.example.kito.dto.auth.AuthLoginRequest;
 import com.example.kito.dto.auth.AuthResponse;
+import com.example.kito.exception.InvalidCredentialsException;
 import com.example.kito.exception.UsernameAlreadyExistsException;
 
 import com.example.kito.model.security.Role;
@@ -105,7 +105,7 @@ class AuthenticationServiceTest {
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("wrongpassword", "encodedpassword")).thenReturn(false);
 
-        assertThrows(BadCredentialsException.class, () -> authenticationService.loginUser(loginRequest));
+        assertThrows(InvalidCredentialsException.class, () -> authenticationService.loginUser(loginRequest));
     }
 
     @Test

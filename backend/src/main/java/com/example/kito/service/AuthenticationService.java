@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service;
 import com.example.kito.dto.auth.AuthCreateUserRequest;
 import com.example.kito.dto.auth.AuthLoginRequest;
 import com.example.kito.dto.auth.AuthResponse;
+import com.example.kito.exception.InvalidCredentialsException;
 import com.example.kito.exception.RoleDoesNotExistException;
 import com.example.kito.exception.UsernameAlreadyExistsException;
 import com.example.kito.model.security.Role;
@@ -87,11 +87,11 @@ public class AuthenticationService implements UserDetailsService {
         UserDetails details = loadUserByUsername(username);
 
         if(details == null) {
-            throw new BadCredentialsException("Invalid username or password");
+            throw new InvalidCredentialsException();
         }
 
         if(!passwordEncoder.matches(password, details.getPassword())) {
-            throw new BadCredentialsException("Invalid username or password");
+            throw new InvalidCredentialsException();
         }
 
         return new UsernamePasswordAuthenticationToken(username, details.getPassword(), details.getAuthorities());
