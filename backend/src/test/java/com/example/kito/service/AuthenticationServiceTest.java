@@ -96,7 +96,7 @@ class AuthenticationServiceTest {
         assertEquals("testuser", response.username());
         assertEquals("Logged succesfuly.", response.message());
         assertTrue(response.status());
-        assertEquals("fake-jwt-token", response.jwt());
+        assertEquals("fake-jwt-token", response.accessToken());
     }
 
     @Test
@@ -121,7 +121,7 @@ class AuthenticationServiceTest {
         assertNotNull(response);
         assertEquals("newuser", response.username());
         assertEquals("User created successfully", response.message());
-        assertEquals("fake-jwt-token", response.jwt());
+        assertEquals("fake-jwt-token", response.accessToken());
         assertTrue(response.status());
     }
 
