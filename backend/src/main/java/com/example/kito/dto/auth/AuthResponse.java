@@ -2,11 +2,11 @@ package com.example.kito.dto.auth;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"username, message, jwt", "status"})
+@JsonPropertyOrder({"username, message, accessToken", "status"})
 public record AuthResponse(
     String username, 
     String message,
-    String jwt,
+    String accessToken,
     boolean status
     ) {
 

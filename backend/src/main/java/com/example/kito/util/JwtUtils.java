@@ -58,7 +58,7 @@ public class JwtUtils {
                 .build();
             return verifier.verify(token);
         } catch (JWTVerificationException e) {
-            throw new JWTVerificationException("Token invalid, not Authorized");
+            return null;
         }
     }
 

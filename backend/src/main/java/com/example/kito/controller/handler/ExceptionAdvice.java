@@ -13,13 +13,14 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 
 import com.example.kito.exception.DepartmentNotFoundException;
+import com.example.kito.exception.InvalidCredentialsException;
 import com.example.kito.exception.PictureUploadFailException;
 import com.example.kito.exception.ProfilePictureNotFoundException;
 import com.example.kito.exception.RoleDoesNotExistException;
 import com.example.kito.exception.UsernameAlreadyExistsException;
 
 @RestControllerAdvice
-class ExceptionAdvice {
+public class ExceptionAdvice {
 
     @ExceptionHandler(DepartmentNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -78,4 +79,13 @@ class ExceptionAdvice {
         ProfilePictureNotFoundException ex) {
             return ex.getMessage();
     }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public String InvalidCredentialsHandler(
+        InvalidCredentialsException ex) {
+            return ex.getMessage();
+    }
+
+    
 }
